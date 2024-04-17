@@ -1,6 +1,5 @@
 # Todos for synology nvim config
 
-- [ ] Status line all the way across if possible?
 - [ ] Linting?
 - [ ] Terminal stuff
 - [ ] Tagbar stuff
@@ -8,3 +7,4 @@
 - [ ] Close treeview as soon as I close last buffer
 - [ ] tabs?
 - [ ] the mason screen - i don't like it
+- [ ] Hide the file directory in tree view
