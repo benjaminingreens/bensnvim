@@ -24,3 +24,8 @@ Path: `~/.config/nvim`
 
 Git Clone: `git clone -b work https://github.com/benjaminingreens/bensnvim.git %userprofile%\AppData\Local\nvim\`
 Path: `%userprofile%\AppData\Local\nvim\`
+
+### Windows (`powershell`)
+
+Git Clone: `git clone -b work https://github.com/benjaminingreens/bensnvim.git $env:USERPROFILE\AppData\Local\nvim\`
+Path: `%userprofile%\AppData\Local\nvim\`
