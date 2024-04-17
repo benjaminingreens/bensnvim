@@ -1,5 +1,8 @@
 -- settings.lua: Basic settings and environment configurations
+
+-- OFNOTE: This is unique to the `work` branch, since I can only access C compilers by downloading them to the local disk. Organisational policies won't allow me to edit system variables, so I have to redirect the config here.
 vim.fn.setenv('PATH', 'C:\\mingw64\\bin;' .. vim.fn.getenv 'PATH')
+
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.g.have_nerd_font = true
