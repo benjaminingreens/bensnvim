@@ -10,3 +10,4 @@
 - [ ] Hide the file directory in tree view
 - [ ] jupyter
 - [ ] folding
+
