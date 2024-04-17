@@ -24,8 +24,3 @@ Path: `~/.config/nvim`
 
 Git Clone: `git clone -b work https://github.com/benjaminingreens/bensnvim.git %userprofile%\AppData\Local\nvim\`
 Path: `%userprofile%\AppData\Local\nvim\`
-```
-sudo pacman -S --noconfirm --needed gcc make git ripgrep fd unzip neovim
-```
-</details>
-
