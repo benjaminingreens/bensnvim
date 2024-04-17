@@ -1,4 +1,4 @@
-# Ben's Neovim Config for: `Work`
+# Ben's Neovim Config for: `Synology`
 
 ## Dependencies
 
