@@ -8,3 +8,5 @@
 - [ ] tabs?
 - [ ] the mason screen - i don't like it
 - [ ] Hide the file directory in tree view
+- [ ] jupyter
+- [ ] folding
