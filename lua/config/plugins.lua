@@ -9,20 +9,6 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   -- Plugins and their configuration details go here
 
- {
-    'stevearc/aerial.nvim',
-    config = function()
-        -- Setup Aerial with custom options
-        require('aerial').setup({
-            placement = 'right',     -- Place the aerial window on the right side
-            width = 45,              -- Set the width of the aerial window to 25
-            open_automatic = true    -- Automatically open aerial when entering a buffer
-        })
-
-        -- Keymap for toggling Aerial
-        vim.api.nvim_set_keymap('n', '<leader>a', ':AerialToggle<CR>', {noremap = true, silent = true})
-    end
-  },
   {
     'nvim-lualine/lualine.nvim',
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },  -- for file icons, optional
@@ -79,7 +65,7 @@ require('lazy').setup({
         diagnostics = { enable = false, debounce_delay = 50, icons = { hint = '', info = '', warning = '', error = '' } },
         filters = { dotfiles = false, custom = {}, exclude = {} },
         git = { enable = true, ignore = true, timeout = 500 },
-        view = { width = 30, side = 'left', preserve_window_proportions = false, number = false, relativenumber = false, signcolumn = 'yes' },
+        view = { width = 25, side = 'left', preserve_window_proportions = false, number = false, relativenumber = false, signcolumn = 'yes' },
         renderer = {
           highlight_git = true,
           highlight_opened_files = 'icon',
