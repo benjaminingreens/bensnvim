@@ -10,6 +10,14 @@ require('lazy').setup({
   -- Plugins and their configuration details go here
 
   {
+    "hanschen/vim-ipython-cell", -- replace this if you find a better-suited plugin
+    config = function()
+        -- You can add any plugin-specific configurations here
+        vim.api.nvim_set_keymap("n", "<C-Enter>", "<Plug>(IPy-Run)", { noremap = false })
+        vim.api.nvim_set_keymap("n", "<S-Enter>", "<Plug>(IPy-RunNext)", { noremap = false })
+    end
+  },
+  {
     'nvim-lualine/lualine.nvim',
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },  -- for file icons, optional
     config = function()
