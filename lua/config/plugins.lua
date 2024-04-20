@@ -138,29 +138,48 @@ require('lazy').setup({
       { 'folke/neodev.nvim', opts = {} },
     },
     config = function()
-      vim.api.nvim_create_autocmd('LspAttach', {
-        group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
-        callback = function(event)
-          local map = function(keys, func, desc)
-            vim.keymap.set('n', keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
-          end
-          map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-          map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-          map('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-          map('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
-          map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
-          map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
-          map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-          map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
-          map('K', vim.lsp.buf.hover, 'Hover Documentation')
-          map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-          local client = vim.lsp.get_client_by_id(event.data.client_id)
-          if client and client.server_capabilities.documentHighlightProvider then
-            vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, { buffer = event.buf, callback = vim.lsp.buf.document_highlight })
-            vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, { buffer = event.buf, callback = vim.lsp.buf.clear_references })
+      -- Setup Mason to manage LSP installations
+      require('mason').setup()
+      require('mason-lspconfig').setup({
+        ensure_installed = { "pyright" } -- Automatically install Pyright
+      })
+
+      -- Configure Pyright for Python
+      require('lspconfig')['pyright'].setup{
+        on_attach = function(client, bufnr)
+          -- Function to simplify key mapping
+          local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+
+          -- Key mappings for LSP functionality
+          local opts = { noremap=true, silent=true }
+          buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+          buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+          buf_set_keymap('n', 'gI', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+          buf_set_keymap('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+          buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+          buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+          buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+          buf_set_keymap('n', '<leader>ds', '<cmd>lua vim.lsp.buf.document_symbol()<CR>', opts)
+          buf_set_keymap('n', '<leader>ws', '<cmd>lua vim.lsp.buf.workspace_symbol()<CR>', opts)
+
+          -- Highlight symbol under cursor
+          if client.server_capabilities.documentHighlightProvider then
+            vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, { buffer = bufnr, callback = vim.lsp.buf.document_highlight })
+            vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, { buffer = bufnr, callback = vim.lsp.buf.clear_references })
           end
         end,
-      })
+        settings = {
+          python = {
+            analysis = {
+              typeCheckingMode = "basic" -- or "off", "strict"
+            }
+          }
+        }
+      }
+
+      -- Add your other language servers here in similar blocks
+      -- Example: Setup for another language
+      -- require('lspconfig')['other_language_server'].setup{...}
     end,
   },
   {
@@ -214,12 +233,13 @@ require('lazy').setup({
         },
         completion = { completeopt = 'menu,menuone,noinsert' },
         mapping = cmp.mapping.preset.insert {
-          ['<C-n>'] = cmp.mapping.select_next_item(),
-          ['<C-p>'] = cmp.mapping.select_prev_item(),
-          ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-          ['<C-f>'] = cmp.mapping.scroll_docs(4),
-          ['<C-y>'] = cmp.mapping.confirm { select = true },
-          ['<C-Space>'] = cmp.mapping.complete {},
+          ['<Tab>'] = cmp.mapping.select_next_item(),
+          -- OFNOTE: Can't get the below to work
+          -- ['<C-Tab>'] = cmp.mapping.select_prev_item(),
+          -- ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+          -- ['<C-f>'] = cmp.mapping.scroll_docs(4),
+          ['<CR>'] = cmp.mapping.confirm { select = true },
+          -- ['<C-Space>'] = cmp.mapping.complete {},
           ['<C-l>'] = function()
             if luasnip.expand_or_locally_jumpable() then
               luasnip.expand_or_jump()
