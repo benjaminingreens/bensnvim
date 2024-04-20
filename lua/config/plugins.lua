@@ -10,6 +10,19 @@ require('lazy').setup({
   -- Plugins and their configuration details go here
 
   {
+    'nvim-treesitter/nvim-treesitter',
+    run = ':TSUpdate',
+    config = function()  -- This uses an inline config in `use` to immediately set up the plugin
+        require('nvim-treesitter.configs').setup {
+            ensure_installed = "all", -- or a list of languages
+            highlight = {
+                enable = true, -- enable highlighting
+            },
+            -- Add more Tree-sitter modules here
+        }
+    end
+  },
+  {
     'nvim-lualine/lualine.nvim',
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },  -- for file icons, optional
     config = function()
