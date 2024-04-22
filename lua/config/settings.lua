@@ -3,6 +3,9 @@
 -- OFNOTE: This is unique to the `work` branch, since I can only access C compilers by downloading them to the local disk. Organisational policies won't allow me to edit system variables, so I have to redirect the config here.
 vim.fn.setenv('PATH', 'C:\\mingw64\\bin;' .. vim.fn.getenv 'PATH')
 
+-- OFNOTE: This is also unique to the `work` branch, since I cannot add whatever I want to PATH without editing system variables, so I have to make do with a setup like this
+vim.cmd [[let $PATH = $PATH . ';c:\\users\\benhammond\\appdata\\roaming\\python\\python39\\Scripts']]
+
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.g.have_nerd_font = true
@@ -34,8 +37,8 @@ vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 vim.opt.foldcolumn = '1'
 function _G.custom_fold_text()
-    local line = vim.fn.getline(vim.v.foldstart)
-    local num_lines = vim.v.foldend - vim.v.foldstart + 1
-    return line .. " ➤ " .. num_lines .. " lines"
+  local line = vim.fn.getline(vim.v.foldstart)
+  local num_lines = vim.v.foldend - vim.v.foldstart + 1
+  return line .. ' ➤ ' .. num_lines .. ' lines'
 end
 vim.opt.foldtext = 'v:lua.custom_fold_text()'
