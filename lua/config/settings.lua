@@ -30,8 +30,8 @@ vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 vim.opt.foldcolumn = '1'
 function _G.custom_fold_text()
-    local line = vim.fn.getline(vim.v.foldstart)
-    local num_lines = vim.v.foldend - vim.v.foldstart + 1
-    return line .. " ➤ " .. num_lines .. " lines"
+  local line = vim.fn.getline(vim.v.foldstart)
+  local num_lines = vim.v.foldend - vim.v.foldstart + 1
+  return line .. ' ➤ ' .. num_lines .. ' lines'
 end
 vim.opt.foldtext = 'v:lua.custom_fold_text()'
