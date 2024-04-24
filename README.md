@@ -4,11 +4,12 @@
 
 ## Dependencies
 
-`git`
-`make`
-`unzip`
-C Compiler (like `gcc`)
-Nerd Font
+- `git`
+- `Node.js`
+- `make`
+- `unzip`
+- C Compiler (like `gcc`)
+- Nerd Font
 
 ## Actual Installation
 
