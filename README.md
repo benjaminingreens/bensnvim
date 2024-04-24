@@ -1,7 +1,5 @@
 # Ben's Neovim Config for: `Synology`
 
-`Note`: My current work computer runs on Windows, and I do not have admin rights. This config is installed using PowerShell
-
 ## Dependencies
 
 - `git`
