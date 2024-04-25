@@ -2,11 +2,12 @@
 
 ## Dependencies
 
-`git`
-`make`
-`unzip`
-C Compiler (like `gcc`)
-Nerd Font
+- `git`
+- `Node.js`
+- `make`
+- `unzip`
+- C Compiler (like `gcc`)
+- Nerd Font
 
 ## Actual Installation
 
@@ -29,4 +30,3 @@ Path: `%userprofile%\AppData\Local\nvim\`
 
 Git Clone: `git clone -b synology https://github.com/benjaminingreens/bensnvim.git $env:USERPROFILE\AppData\Local\nvim\`
 Path: `%userprofile%\AppData\Local\nvim\`
-
