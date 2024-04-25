@@ -10,6 +10,9 @@
 - [ ] Resolve confilicts from work branch (chevrons, webdevicons, symbols outline, transparency configs)
 - [ ] Fix alacritty resizing (for windows lol)
 - [ ] vsplit
+- [ ] thin but white vsplits maybe?
+- [ ] typeface on mac is thick?
+- [ ] better folding
 
 ## Kind of works (with workarounds)
 
