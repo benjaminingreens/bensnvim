@@ -10,58 +10,131 @@ require('lazy').setup({
   -- Plugins and their configuration details go here
 
   {
-    "hanschen/vim-ipython-cell", -- replace this if you find a better-suited plugin
+    'simrat39/symbols-outline.nvim',
+    cmd = 'SymbolsOutline', -- Lazy loads on calling :SymbolsOutline
     config = function()
-        -- You can add any plugin-specific configurations here
-        vim.api.nvim_set_keymap("n", "<C-Enter>", "<Plug>(IPy-Run)", { noremap = false })
-        vim.api.nvim_set_keymap("n", "<S-Enter>", "<Plug>(IPy-RunNext)", { noremap = false })
-    end
+      local opts = {
+        highlight_hovered_item = true,
+        show_guides = true,
+        auto_preview = false,
+        position = 'right',
+        relative_width = true,
+        width = 25,
+        auto_close = false,
+        show_numbers = false,
+        show_relative_numbers = false,
+        show_symbol_details = true,
+        preview_bg_highlight = 'Pmenu',
+        autofold_depth = nil,
+        auto_unfold_hover = true,
+        fold_markers = { '', '' },
+        wrap = false,
+        keymaps = { -- These keymaps can be a string or a table for multiple keys
+          close = { '<Esc>', 'q' },
+          goto_location = '<Cr>',
+          focus_location = 'o',
+          hover_symbol = '<C-space>',
+          toggle_preview = 'K',
+          rename_symbol = 'r',
+          code_actions = 'a',
+          fold = 'h',
+          unfold = 'l',
+          fold_all = 'W',
+          unfold_all = 'E',
+          fold_reset = 'R',
+        },
+        lsp_blacklist = {},
+        symbol_blacklist = {},
+        symbols = {
+          File = { icon = '', hl = '@text.uri' },
+          Module = { icon = '', hl = '@namespace' },
+          Namespace = { icon = '', hl = '@namespace' },
+          Package = { icon = '', hl = '@namespace' },
+          Class = { icon = '𝓒', hl = '@type' },
+          Method = { icon = 'ƒ', hl = '@method' },
+          Property = { icon = '', hl = '@method' },
+          Field = { icon = '', hl = '@field' },
+          Constructor = { icon = '', hl = '@constructor' },
+          Enum = { icon = 'ℰ', hl = '@type' },
+          Interface = { icon = 'ﰮ', hl = '@type' },
+          Function = { icon = 'f', hl = '@function' },
+          Variable = { icon = '', hl = '@constant' },
+          Constant = { icon = '', hl = '@constant' },
+          String = { icon = '𝓐', hl = '@string' },
+          Number = { icon = '#', hl = '@number' },
+          Boolean = { icon = '⊨', hl = '@boolean' },
+          Array = { icon = '', hl = '@constant' },
+          Object = { icon = '⦿', hl = '@type' },
+          Key = { icon = '🔐', hl = '@type' },
+          Null = { icon = 'NULL', hl = '@type' },
+          EnumMember = { icon = '', hl = '@field' },
+          Struct = { icon = '𝓢', hl = '@type' },
+          Event = { icon = '🗲', hl = '@type' },
+          Operator = { icon = '+', hl = '@operator' },
+          TypeParameter = { icon = '𝙏', hl = '@parameter' },
+          Component = { icon = '', hl = '@function' },
+          Fragment = { icon = '', hl = '@constant' },
+        },
+      }
+
+      require('symbols-outline').setup(opts)
+      -- Key mapping to toggle Symbols Outline
+      vim.api.nvim_set_keymap('n', '<leader>o', ':SymbolsOutline<CR>', { noremap = true, silent = true })
+    end,
+  },
+  {
+    'hanschen/vim-ipython-cell', -- replace this if you find a better-suited plugin
+    config = function()
+      -- You can add any plugin-specific configurations here
+      vim.api.nvim_set_keymap('n', '<C-Enter>', '<Plug>(IPy-Run)', { noremap = false })
+      vim.api.nvim_set_keymap('n', '<S-Enter>', '<Plug>(IPy-RunNext)', { noremap = false })
+    end,
   },
   {
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
-    config = function()  -- This uses an inline config in `use` to immediately set up the plugin
-        require('nvim-treesitter.configs').setup {
-            ensure_installed = "all", -- or a list of languages
-            highlight = {
-                enable = true, -- enable highlighting
-            },
-            -- Add more Tree-sitter modules here
-        }
-    end
+    config = function() -- This uses an inline config in `use` to immediately set up the plugin
+      require('nvim-treesitter.configs').setup {
+        ensure_installed = 'all', -- or a list of languages
+        highlight = {
+          enable = true, -- enable highlighting
+        },
+        -- Add more Tree-sitter modules here
+      }
+    end,
   },
   {
     'nvim-lualine/lualine.nvim',
-    requires = { 'kyazdani42/nvim-web-devicons', opt = true },  -- for file icons, optional
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true }, -- for file icons, optional
     config = function()
       require('lualine').setup {
         options = {
           icons_enabled = true,
-          theme = 'auto',  -- automatically picks the theme based on your colorscheme
-          component_separators = { left = '|', right = '|' },
-          section_separators = { left = '', right = '' },
+          theme = 'auto', -- automatically picks the theme based on your colorscheme
+          component_separators = { left = '', right = '' }, -- chevrons as component separators
+          section_separators = { left = '', right = '' }, -- chevrons as section separators
           disabled_filetypes = {},
           globalstatus = true,
           always_divide_middle = true,
         },
         sections = {
-          lualine_a = {'mode'},
-          lualine_b = {'branch', 'diff', 'diagnostics'},
-          lualine_c = {{'filename', file_status = true, path = 1}},
-          lualine_x = {'encoding', 'fileformat', 'filetype'},
-          lualine_y = {'progress'},
-          lualine_z = {'location'}
+          lualine_a = { 'mode' },
+          lualine_b = { 'branch', 'diff', 'diagnostics' },
+          lualine_c = { { 'filename', file_status = true, path = 1 } },
+          lualine_x = { 'encoding', 'fileformat', 'filetype' },
+          lualine_y = { 'progress' },
+          lualine_z = { 'location' },
         },
         inactive_sections = {
           lualine_a = {},
           lualine_b = {},
-          lualine_c = {'filename'},
-          lualine_x = {'location'},
+          lualine_c = { 'filename' },
+          lualine_x = { 'location' },
           lualine_y = {},
-          lualine_z = {}
+          lualine_z = {},
         },
         tabline = {},
-        extensions = {}
+        extensions = {},
       }
     end,
   },
@@ -161,18 +234,20 @@ require('lazy').setup({
     config = function()
       -- Setup Mason to manage LSP installations
       require('mason').setup()
-      require('mason-lspconfig').setup({
-        ensure_installed = { "pyright" } -- Automatically install Pyright
-      })
+      require('mason-lspconfig').setup {
+        ensure_installed = { 'pyright' }, -- Automatically install Pyright
+      }
 
       -- Configure Pyright for Python
-      require('lspconfig')['pyright'].setup{
+      require('lspconfig')['pyright'].setup {
         on_attach = function(client, bufnr)
           -- Function to simplify key mapping
-          local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+          local function buf_set_keymap(...)
+            vim.api.nvim_buf_set_keymap(bufnr, ...)
+          end
 
           -- Key mappings for LSP functionality
-          local opts = { noremap=true, silent=true }
+          local opts = { noremap = true, silent = true }
           buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
           buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
           buf_set_keymap('n', 'gI', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
@@ -192,10 +267,10 @@ require('lazy').setup({
         settings = {
           python = {
             analysis = {
-              typeCheckingMode = "basic" -- or "off", "strict"
-            }
-          }
-        }
+              typeCheckingMode = 'basic', -- or "off", "strict"
+            },
+          },
+        },
       }
 
       -- Add your other language servers here in similar blocks
@@ -279,9 +354,30 @@ require('lazy').setup({
   {
     'folke/tokyonight.nvim',
     priority = 1000,
-    init = function()
-      vim.cmd.colorscheme 'tokyonight-night'
-      vim.cmd.hi 'Comment gui=none'
+    config = function()
+      -- Configure the TokyoNight theme with transparency and apply it
+      require('tokyonight').setup {
+        style = 'night', -- setting it to 'night' as per the initial setup; adjust as needed
+        transparent = true, -- enabling transparency
+        terminal_colors = true,
+        styles = {
+          comments = { italic = true },
+          keywords = { italic = true },
+          functions = {},
+          variables = {},
+          sidebars = 'dark',
+          floats = 'dark',
+        },
+        sidebars = { 'qf', 'help' },
+        day_brightness = 0.3,
+        hide_inactive_statusline = false,
+        dim_inactive = false,
+        lualine_bold = false,
+      }
+      -- Load the colorscheme
+      vim.cmd.colorscheme 'tokyonight'
+      -- Optionally adjust specific highlight groups
+      vim.cmd [[hi Comment gui=none]]
     end,
   },
   {
@@ -294,7 +390,7 @@ require('lazy').setup({
     'echasnovski/mini.nvim',
     config = function()
       require('mini.ai').setup {
-        n_lines = 500
+        n_lines = 500,
       }
       require('mini.surround').setup()
     end,
