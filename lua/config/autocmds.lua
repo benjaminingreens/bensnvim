@@ -35,3 +35,10 @@ vim.api.nvim_create_autocmd('VimEnter', {
         ]]
   end,
 })
+
+vim.api.nvim_create_autocmd("VimEnter", {
+    pattern = "*",
+    callback = function()
+        vim.opt.cmdheight = 0
+    end
+})
