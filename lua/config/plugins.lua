@@ -104,6 +104,19 @@ require('lazy').setup({
     end,
   },
   {
+    'nvim-treesitter/nvim-treesitter',
+    run = ':TSUpdate',
+    config = function()  -- This uses an inline config in `use` to immediately set up the plugin
+        require('nvim-treesitter.configs').setup {
+            ensure_installed = "all", -- or a list of languages
+            highlight = {
+                enable = true, -- enable highlighting
+            },
+            -- Add more Tree-sitter modules here
+        }
+    end
+  },
+  {
     'nvim-lualine/lualine.nvim',
     requires = { 'kyazdani42/nvim-web-devicons', opt = true }, -- for file icons, optional
     config = function()
@@ -234,20 +247,18 @@ require('lazy').setup({
     config = function()
       -- Setup Mason to manage LSP installations
       require('mason').setup()
-      require('mason-lspconfig').setup {
-        ensure_installed = { 'pyright' }, -- Automatically install Pyright
-      }
+      require('mason-lspconfig').setup({
+        ensure_installed = { "pyright" } -- Automatically install Pyright
+      })
 
       -- Configure Pyright for Python
-      require('lspconfig')['pyright'].setup {
+      require('lspconfig')['pyright'].setup{
         on_attach = function(client, bufnr)
           -- Function to simplify key mapping
-          local function buf_set_keymap(...)
-            vim.api.nvim_buf_set_keymap(bufnr, ...)
-          end
+          local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
 
           -- Key mappings for LSP functionality
-          local opts = { noremap = true, silent = true }
+          local opts = { noremap=true, silent=true }
           buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
           buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
           buf_set_keymap('n', 'gI', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
@@ -267,10 +278,10 @@ require('lazy').setup({
         settings = {
           python = {
             analysis = {
-              typeCheckingMode = 'basic', -- or "off", "strict"
-            },
-          },
-        },
+              typeCheckingMode = "basic" -- or "off", "strict"
+            }
+          }
+        }
       }
 
       -- Add your other language servers here in similar blocks
@@ -390,7 +401,7 @@ require('lazy').setup({
     'echasnovski/mini.nvim',
     config = function()
       require('mini.ai').setup {
-        n_lines = 500,
+        n_lines = 500
       }
       require('mini.surround').setup()
     end,
